@@ -4,7 +4,7 @@ const mongoose = require("mongoose"),
 module.exports = (req, res) => {
   const id = req.params.id,
     perPage = 10,
-    page = parseInt(req.query.page);
+    page = parseInt(req.query.page) || 0;
 
   Status.find({ device: id, gps: { $exists: true } })
     .sort({ createdAt: -1 })

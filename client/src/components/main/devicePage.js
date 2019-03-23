@@ -27,12 +27,15 @@ export default class devicePage extends Component {
         }
       })
         .then(res => {
-          let coordsTemp = [...this.state.coordinates];
-          res.data.forEach(coord => {
-            coordsTemp.push({ lat: coord.gps[0], lng: coord.gps[1] })
-          });
-          this.setState({ coordinates: [...new Set(coordsTemp)], page: this.state.page + 1 });
-          if (this.state.page < 50) {
+          if (res.data.length > 0) {
+            let coordsTemp = [...this.state.coordinates];
+            res.data.forEach(coord => {
+              if (coord.gps && coord.gps[0] && coord.gps[1] && coord.gps[0] != null && coord.gps[1] != null) {
+                coordsTemp.push({ lat: coord.gps[0], lng: coord.gps[1] })
+              }
+            });
+            this.setState({ coordinates: [...new Set(coordsTemp)], page: this.state.page + 1 });
+
             console.log("From Onclick in maps>", this.state.page);
             loop();
           }
